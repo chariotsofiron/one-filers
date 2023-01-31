@@ -1,13 +1,12 @@
 def construct_function(mapping: dict[int, int]) -> str:
-    """Construct a mathematical expression for an injective function represented as a
-    dictionary.
+    """Constructs an unsimplified polynomial expression for a dictionary
+    representing an injective function.
 
     Example:
-        >>> construct_function({0: 0, 1: 2, -1: 1})
-        1/2n(3n+1)
+    >>> construct_function({0: 0, 1: 2, -1: 1})
+    '(x-1)(x--1)(0/-1)+(x-0)(x--1)(2/2)+(x-0)(x-1)(1/2)'
 
-    :param mapping: A dictionary representing an injective function
-    :returns: An unsimplified polynomial expression
+    ...which simplifies to 1/2n(3n+1)
     """
     terms = []
     for i, j in mapping.items():

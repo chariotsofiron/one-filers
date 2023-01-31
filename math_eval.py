@@ -22,17 +22,6 @@ binary_operators = {
 unary_operators = {ast.UAdd: op.pos, ast.USub: op.neg, ast.Invert: op.inv}
 
 
-def eval_expr(expression: str) -> Any:  # type: ignore[misc]
-    """Evaluate an arithmetic expression.
-
-    :param expression: The expression to evaluate
-    :return: The result of the expression
-    """
-    result: AST = ast.parse(expression, mode="eval")
-    assert isinstance(result, Expression)
-    return eval_(result.body)
-
-
 def eval_(node: expr) -> Any:  # type: ignore[misc]
     """Eval ast nodes.
 
@@ -49,10 +38,21 @@ def eval_(node: expr) -> Any:  # type: ignore[misc]
     raise TypeError(node)
 
 
-def test_eval() -> None:
-    """Test eval"""
-    assert eval_expr("2+3") == 5
-    assert eval_expr("1 + 2*3**(4^5) / (6 + -7)") == -5.0
-    assert eval_expr("2**6") == 64
-    assert eval_expr("2^6") == 4
-    assert eval_expr("0x3 & 0o6 | 0b100") == 6
+def eval_expr(expression: str) -> Any:  # type: ignore[misc]
+    """Evaluates an arithmetic expression.
+
+    Examples:
+    >>> eval_expr("2+3")
+    5
+    >>> eval_expr("1 + 2*3**(4^5) / (6 + -7)")
+    -5.0
+    >>> eval_expr("2**6")
+    64
+    >>> eval_expr("2^6")
+    4
+    >>> eval_expr("0x3 & 0o6 | 0b100")
+    6
+    """
+    result: AST = ast.parse(expression, mode="eval")
+    assert isinstance(result, Expression)
+    return eval_(result.body)
