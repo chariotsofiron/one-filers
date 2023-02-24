@@ -5,33 +5,32 @@ Example:
     placement
     intention
 
-1. Download word list
-2. trim to 9 letter words: rg "^[a-z]{9}$" words.txt
-3. sort: sort words.txt > words.txt
+# Instructions
 
-# Usage
-
-python watsky_words.py words.txt
+$ rg "^[a-z]{9}$" words.txt > words.txt     # 9-letter words
+$ sort words.txt > words.txt                # sort the words
+$ python watsky_words.py words.txt          # find solutions
 """
 import pathlib
 import sys
 
 
 def get_words(path: str) -> list[str]:
-    """Reads a file into lines."""
+    """Reads a file into lines for the given path."""
     return pathlib.Path(path).read_text(encoding="utf-8").splitlines()
 
 
 def find_words_with_prefix(words: list[str], prefix: str) -> list[str]:
-    """Find words with a given prefix using binary search."""
-    prefix_len = len(prefix)
+    """Returns a list of words that start with the given prefix.
+    Assumes that `words` is sorted and uses binary search.
+    """
+    # binary search for a candidate word
     left, right = 0, len(words) - 1
-
     while left <= right:
         mid = (left + right) // 2
         if words[mid].startswith(prefix):
             break
-        if prefix < words[mid][:prefix_len]:
+        if prefix < words[mid][: len(prefix)]:
             right = mid - 1
         else:
             left = mid + 1
@@ -39,8 +38,8 @@ def find_words_with_prefix(words: list[str], prefix: str) -> list[str]:
     if left > right:
         return []
 
+    # find neighboring solutions
     result = []
-
     i = mid
     while i < len(words) and words[i].startswith(prefix):
         result.append(words[i])
