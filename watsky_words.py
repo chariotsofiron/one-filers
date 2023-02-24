@@ -10,6 +10,10 @@ Example:
 $ rg "^[a-z]{9}$" words.txt > words.txt     # 9-letter words
 $ sort words.txt > words.txt                # sort the words
 $ python watsky_words.py words.txt          # find solutions
+
+# Links
+
+- https://old.reddit.com/r/DesignPorn/comments/11ag8f6/design_for_watskys_three_most_recent_albums/j9s5vqq/
 """
 import pathlib
 import sys
